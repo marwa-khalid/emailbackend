@@ -55,7 +55,7 @@ app.post("/send-email", async (req, res) => {
 
 <h2 style="color: #000000; font-size: 20px; font-weight: 600; margin: 0 0 16px 0; line-height: 1.2;">
 
-Hi, Marwa Khalid
+Hi, New User
 
 </h2>
 
@@ -211,7 +211,7 @@ app.post("/send-otp", async (req, res) => {
     from: "marwakhalid558@gmail.com",
     to: recipientEmail,
     subject: "Nationwide Assist Invite",
-      html: `<div>
+    html: `<div>
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
             <td align="center" style="padding: 40px 0;">
@@ -220,7 +220,7 @@ app.post("/send-otp", async (req, res) => {
                     <tr>
                         <td align="center" style="padding-bottom: 16px;">
                             <h2 style="margin: 0; color: #000000; font-size: 20px; font-weight: 600; line-height: 20px;">
-                                Hi, Marwa Khalid
+                                Hi, New User
                             </h2>
                         </td>
                     </tr>
