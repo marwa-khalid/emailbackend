@@ -36,7 +36,7 @@ app.post("/send-email", async (req, res) => {
   const mailOptions = {
     from: "marwakhalid558@gmail.com",
     to: recipientEmail,
-    subject: "Nationwide Assist Invite",
+    subject: "Nationwide Assist Reset",
     html: `<div>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -210,7 +210,7 @@ app.post("/send-otp", async (req, res) => {
   const mailOptions = {
     from: "marwakhalid558@gmail.com",
     to: recipientEmail,
-    subject: "Nationwide Assist Invite",
+    subject: "Nationwide Assist Verification",
     html: `<div>
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
