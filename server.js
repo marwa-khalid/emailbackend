@@ -430,7 +430,7 @@ app.post("/send-otp", async (req, res) => {
                     </tr>
 
                     <tr>
-                        <td align="center" style="padding-bottom: 48px;">
+                        <td align="center" style="padding-bottom: 32px;">
                             <span style="color: #000000; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600;">Kind regards,</span><br>
                             <span style="color: #000000; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600;">Nationwide Assist IT / Systems Team</span>
                         </td>
