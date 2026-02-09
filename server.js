@@ -104,7 +104,7 @@ ${inviteLink}
 
 <td align="center" style="padding-bottom: 48px;">
 
-<p style="color: #444444; font-size: 12px; font-style: semi-bold; line-height: 1.6; font-weight: 600; margin: 0 0 24px 0;">
+<p style="color: #444444; font-size: 12px; line-height: 1.6; font-weight: 600; margin: 0 0 24px 0;">
 
 For security reasons, this link will expire in 24 hours.<br />
 
@@ -112,7 +112,7 @@ If the link expires, please contact your admin to request a new activation email
 
 </p>
 
-<p style="color: #444444; font-size: 12px; font-style: semi-bold; font-weight: 600; margin: 0;">
+<p style="color: #444444; font-size: 12px; font-weight: 600; margin: 0;">
 
 If you did not expect this invitation, you can safely ignore this </br> message.
 
@@ -210,7 +210,7 @@ app.post("/send-reset-link", async (req, res) => {
   const mailOptions = {
     from: "marwakhalid558@gmail.com",
     to: recipientEmail,
-    subject: "Forgot / Reset Password",
+    subject: "Reset Password",
     html: `<div>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -279,7 +279,7 @@ ${inviteLink}
 
 <td align="center" style="padding-bottom: 48px;">
 
-<p style="color: #444444; font-size: 12px; line-height: 1.6; margin: 0 0 24px 0;">
+<p style="color: #444444; font-size: 12px; line-height: 1.6; font-weight: 600; margin: 0 0 24px 0;">
 
 For security reasons, this link will expire in 24 hours.<br />
 
@@ -287,10 +287,9 @@ If the link expires, please contact your admin to request a new activation email
 
 </p>
 
-<p style="color: #444444; font-size: 12px; font-style: italic; margin: 0;">
+<p style="color: #444444; font-size: 12px; font-weight: 600; margin: 0;">
 
-If you did not request a password reset, you can safely ignore this email <br />
- -your account will remain secure
+If you did not expect this invitation, you can safely ignore this </br> message.
 
 </p>
 
@@ -331,16 +330,15 @@ If you did not request a password reset, you can safely ignore this email <br />
 </table>
 
 
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
 
 <tr>
 
-<td align="left" style="padding: 16px;">
+<td align="center" style="padding: 16px;">
 
-<span style="color: #888888; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Security notice:</span>
+<span style="color: #888888; font-family: 'Stack Sans Headline-SemiBold', Helvetica; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Security notice:</span>
 
-<p style="color: #888888; font-size: 12px; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
+<p style="color: #888888; font-size: 12px; font-family: 'Stack Sans Headline-Regular', Helvetica; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
 
 Never share your login details with anyone. Nationwide Assist will never ask for your password by email.
 
@@ -351,7 +349,6 @@ Never share your login details with anyone. Nationwide Assist will never ask for
 </tr>
 
 </table>
-
 
 
 </td>
@@ -385,7 +382,7 @@ app.post("/send-otp", async (req, res) => {
   const mailOptions = {
     from: "marwakhalid558@gmail.com",
     to: recipientEmail,
-    subject: "Two Factor Authentication",
+    subject: "Your One-Time Password (OTP)",
     html: `<div>
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
         <tr>
@@ -439,20 +436,28 @@ app.post("/send-otp", async (req, res) => {
                         </td>
                     </tr>
 
-                    <tr>
-                        <td align="center">
-                            <div style="background-color: #f9f9f9; padding: 16px; border-radius: 6px; width: 100%;">
-                                <span style="color: #888888; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
-                                    Security notice:
-                                </span><br>
-                                <p style="margin: 4px 0 0 0; color: #888888; font-size: 12px; line-height: 1.4;">
-                                    Never share your login details with anyone. Nationwide Assist will never ask for your password by email.
-                                </p>
-                            </div>
-                        </td>
-                    </tr>
+                   
 
                 </table>
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+<tr>
+
+<td align="center" style="padding: 16px;">
+
+<span style="color: #888888; font-family: 'Stack Sans Headline-SemiBold', Helvetica; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Security notice:</span>
+
+<p style="color: #888888; font-size: 12px; font-family: 'Stack Sans Headline-Regular', Helvetica; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
+
+Never share your login details with anyone. Nationwide Assist will never ask for your password by email.
+
+</p>
+
+</td>
+
+</tr>
+
+</table>
             </td>
         </tr>
     </table>
