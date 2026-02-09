@@ -104,7 +104,7 @@ ${inviteLink}
 
 <td align="center" style="padding-bottom: 48px;">
 
-<p style="color: #444444; font-size: 12px; line-height: 1.6; margin: 0 0 24px 0;">
+<p style="color: #444444; font-size: 12px; font-style: semi-bold; line-height: 1.6; font-weight: 600; margin: 0 0 24px 0;">
 
 For security reasons, this link will expire in 24 hours.<br />
 
@@ -112,9 +112,9 @@ If the link expires, please contact your admin to request a new activation email
 
 </p>
 
-<p style="color: #444444; font-size: 12px; font-style: semi-bold; margin: 0;">
+<p style="color: #444444; font-size: 12px; font-style: semi-bold; font-weight: 600; margin: 0;">
 
-If you did not expect this invitation, you can safely ignore this message.
+If you did not expect this invitation, you can safely ignore this </br> message.
 
 </p>
 
@@ -289,7 +289,7 @@ If the link expires, please contact your admin to request a new activation email
 
 <p style="color: #444444; font-size: 12px; font-style: italic; margin: 0;">
 
-If you did not If you did not request a password reset, you can safely ignore this email <br />
+If you did not request a password reset, you can safely ignore this email <br />
  -your account will remain secure
 
 </p>
