@@ -156,7 +156,7 @@ If you did not expect this invitation, you can safely ignore this message.
 
 
 
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 6px;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
 
 <tr>
 
