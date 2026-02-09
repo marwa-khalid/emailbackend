@@ -386,8 +386,8 @@ app.post("/send-otp", async (req, res) => {
     html: `<div>
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family: 'Stack Sans Headline-Regular', Helvetica, Arial, sans-serif;">
         <tr>
-            <td align="center" style="padding: 40px 0; background-color: #f5f5f5;">
-                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; padding: 48px;">
+            <td align="center" style="padding: 40px 0;">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="overflow: hidden; padding: 48px;">
                     
                     <tr>
                         <td align="center" style="padding-bottom: 16px;">
