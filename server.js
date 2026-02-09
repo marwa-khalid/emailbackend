@@ -408,7 +408,7 @@ app.post("/send-otp", async (req, res) => {
 
                     <tr>
                         <td align="center" style="padding-bottom: 40px;">
-                            <div style="color: #0352FD; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 40px; font-weight: 600; letter-spacing: 0px; line-height: 40px;">
+                            <div style="color: #0352FD; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 40px; font-weight: 600; letter-spacing: 8px; line-height: 40px;">
                                 ${otp}
                             </div>
                         </td>
