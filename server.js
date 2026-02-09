@@ -55,7 +55,7 @@ app.post("/send-email", async (req, res) => {
 
 <h2 style="color: #000000; font-size: 20px; font-weight: 600; margin: 0 0 16px 0; line-height: 1.2;">
 
-Hi, User
+Hi
 
 </h2>
 
@@ -113,7 +113,7 @@ If the link expires, please contact your admin to request a new activation email
 
 </p>
 
-<p style="color: #444444; font-size: 12px; font-style: italic; margin: 0;">
+<p style="color: #444444; font-size: 12px; font-style: semi-bold; margin: 0;">
 
 If you did not expect this invitation, you can safely ignore this message.
 
@@ -161,9 +161,9 @@ If you did not expect this invitation, you can safely ignore this message.
 
 <tr>
 
-<td align="left" style="padding: 16px;">
+<td align="center" style="padding: 16px;">
 
-<span style="color: #888888; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Security notice:</span>
+<span style="color: #888888; font-size: 12px; font-weight: 600; letter-spacing: 0.5px;">Security notice:</span>
 
 <p style="color: #888888; font-size: 12px; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
 
@@ -229,7 +229,7 @@ app.post("/send-reset-link", async (req, res) => {
 
 <h2 style="color: #000000; font-size: 20px; font-weight: 600; margin: 0 0 16px 0; line-height: 1.2;">
 
-Hi, User
+Hi
 
 </h2>
 
@@ -395,7 +395,7 @@ app.post("/send-otp", async (req, res) => {
                     <tr>
                         <td align="center" style="padding-bottom: 16px;">
                             <h2 style="margin: 0; color: #000000; font-size: 20px; font-weight: 600; line-height: 20px;">
-                                Hi, User
+                                Hi
                             </h2>
                         </td>
                     </tr>
