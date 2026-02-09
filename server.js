@@ -440,7 +440,7 @@ app.post("/send-otp", async (req, res) => {
 
                 <table border="0" cellpadding="0" cellspacing="0" width="600">
                     <tr>
-                        <td align="center" style="padding: 16px;">
+                        <td align="center" style="padding: 16px;padding-top: 0px;">
                             <span style="color: #888888; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600;">Security notice:</span>
                             <p style="color: #888888; font-size: 12px; font-family: 'Stack Sans Headline-Regular', Helvetica, Arial, sans-serif; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
                                 Never share your login details with anyone. Nationwide Assist will never ask for your password by email.
