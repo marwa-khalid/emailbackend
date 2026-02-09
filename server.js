@@ -384,22 +384,22 @@ app.post("/send-otp", async (req, res) => {
     to: recipientEmail,
     subject: "Your One-Time Password (OTP)",
     html: `<div>
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family: 'Stack Sans Headline-Regular', Helvetica, Arial, sans-serif;">
         <tr>
-            <td align="center" style="padding: 40px 0;">
+            <td align="center" style="padding: 40px 0; background-color: #f5f5f5;">
                 <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); overflow: hidden; padding: 48px;">
                     
                     <tr>
                         <td align="center" style="padding-bottom: 16px;">
-                            <h2 style="margin: 0; color: #000000; font-size: 20px; font-weight: 600; line-height: 20px;">
+                            <h2 style="margin: 0; color: #000000; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 20px; font-weight: 600; line-height: 20px;">
                                 Hi
                             </h2>
                         </td>
                     </tr>
 
                     <tr>
-                        <td align="center" style="padding-bottom: 40px;">
-                            <p style="margin: 0; color: #444444; font-size: 14px; font-weight: 400; line-height: 1.6;">
+                        <td align="center" style="padding-bottom: 34px;">
+                            <p style="margin: 0; color: #444444; font-family: 'Stack Sans Headline-Regular', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 1.4;">
                                 Your One-Time Password (OTP) for accessing<br>
                                 your Nationwide Assist CRM account is
                             </p>
@@ -408,7 +408,7 @@ app.post("/send-otp", async (req, res) => {
 
                     <tr>
                         <td align="center" style="padding-bottom: 40px;">
-                            <div style="color: #0352FD; font-size: 40px; font-weight: 700; letter-spacing: 8px;">
+                            <div style="color: #0352FD; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 40px; font-weight: 600; letter-spacing: 0px; line-height: 40px;">
                                 ${otp}
                             </div>
                         </td>
@@ -416,7 +416,7 @@ app.post("/send-otp", async (req, res) => {
 
                     <tr>
                         <td align="center" style="padding-bottom: 48px;">
-                            <div style="max-width: 394px; margin: 0 auto; color: #444444; font-size: 12px; line-height: 1.6;">
+                            <div style="max-width: 394px; margin: 0 auto; color: #444444; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; line-height: 1.6;">
                                 <p style="margin: 0;">This OTP is valid for 5 minutes and can only be used once.</p>
                                 <p style="margin: 16px 0 0 0;">
                                     If you did not request this OTP, you can safely ignore this email or contact your system administrator.
@@ -431,37 +431,27 @@ app.post("/send-otp", async (req, res) => {
 
                     <tr>
                         <td align="center" style="padding-bottom: 48px;">
-                            <span style="color: #000000; font-size: 12px; font-weight: 400;">Kind regards,</span><br>
-                            <span style="color: #000000; font-size: 14px; font-weight: 600;">Nationwide Assist IT / Systems Team</span>
+                            <span style="color: #000000; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600;">Kind regards,</span><br>
+                            <span style="color: #000000; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600;">Nationwide Assist IT / Systems Team</span>
                         </td>
                     </tr>
 
-                   
-
                 </table>
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
 
-<tr>
-
-<td align="center" style="padding: 16px;">
-
-<span style="color: #888888; font-family: 'Stack Sans Headline-SemiBold', Helvetica; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Security notice:</span>
-
-<p style="color: #888888; font-size: 12px; font-family: 'Stack Sans Headline-Regular', Helvetica; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
-
-Never share your login details with anyone. Nationwide Assist will never ask for your password by email.
-
-</p>
-
-</td>
-
-</tr>
-
-</table>
+                <table border="0" cellpadding="0" cellspacing="0" width="600">
+                    <tr>
+                        <td align="center" style="padding: 16px;">
+                            <span style="color: #888888; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600;">Security notice:</span>
+                            <p style="color: #888888; font-size: 12px; font-family: 'Stack Sans Headline-Regular', Helvetica, Arial, sans-serif; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
+                                Never share your login details with anyone. Nationwide Assist will never ask for your password by email.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
-    </div>`,
+</div>`,
   };
 
   try {
