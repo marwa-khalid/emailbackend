@@ -1,43 +1,53 @@
-const nodemailer = require("nodemailer");
+
 const express = require("express");
 const cors = require("cors");
 const app = express();
-
+const sgMail = require("@sendgrid/mail"); // 1. Use SendGrid instead of Nodemailer
 // Middleware MUST come before routes
 app.use(cors());
 app.use(express.json());
+// Configuration
+const SENDGRID_API_KEY = "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";
+const FROM_EMAIL = "No-Reply <noreplynationwideassist@yopmail.com>";
 
+sgMail.setApiKey(SENDGRID_API_KEY);
 // Add a simple GET route to test the browser directly
 app.get("/", (req, res) => {
   res.send("Server is alive and responding!");
 });
 console.log("Initializing transporter...");
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "marwakhalid558@gmail.com",
-    pass: "mjeh qhpm tocf opxw", // <--- MAKE SURE THIS IS CORRECT
-  },
-});
-
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "marwakhalid558@gmail.com",
+//     pass: "mjeh qhpm tocf opxw", // <--- MAKE SURE THIS IS CORRECT
+//   },
+// });
+// Helper function to keep code DRY
+const sendEmail = async (to, subject, html) => {
+  const msg = {
+    to: to,
+    from: FROM_EMAIL, 
+    subject: subject,
+    html: html,
+  };
+  return sgMail.send(msg);
+};
 // Test the transporter connection on startup
-transporter.verify((error, success) => {
-  if (error) {
-    console.log("Transporter error:", error);
-  } else {
-    console.log("Server is ready to take our messages");
-  }
-});
+// transporter.verify((error, success) => {
+//   if (error) {
+//     console.log("Transporter error:", error);
+//   } else {
+//     console.log("Server is ready to take our messages");
+//   }
+// });
 
 app.post("/send-email", async (req, res) => {
   console.log("Received request:", req.body);
   const { recipientEmail, inviteLink } = req.body;
 
-  const mailOptions = {
-    from: "marwakhalid558@gmail.com",
-    to: recipientEmail,
-    subject: "Password Reset - Secure Invitation Link",
-    html: `<div> 
+    const subject= "Password Reset - Secure Invitation Link"
+    const htmlContent= `<div> 
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
 
 <tr>
@@ -191,27 +201,22 @@ Never share your login details with anyone. Nationwide Assist will never ask for
 </table>
 
 </div>
-`,
-  };
-
+`
   try {
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent!");
+    await sendEmail(recipientEmail, subject, htmlContent);
+    console.log("Invite Email sent!");
     res.status(200).send({ message: "Success" });
   } catch (err) {
-    console.error("Send error:", err);
-    res.status(500).send({ error: err.message });
+    console.error("SendGrid error:", err.response ? err.response.body : err);
+    res.status(500).send({ error: "Failed to send email" });
   }
 });
 app.post("/send-reset-link", async (req, res) => {
   console.log("Received request:", req.body);
   const { recipientEmail, inviteLink } = req.body;
 
-  const mailOptions = {
-    from: "marwakhalid558@gmail.com",
-    to: recipientEmail,
-    subject: "Reset Password",
-    html: `<div>
+    subject="Reset Password",
+    htmlContent= `<div>
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
 
@@ -363,27 +368,24 @@ Never share your login details with anyone. Nationwide Assist will never ask for
 
 </table>
 
-</div>`,
-  };
+</div>`
 
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent!");
-    res.status(200).send({ message: "Success" });
-  } catch (err) {
-    console.error("Send error:", err);
-    res.status(500).send({ error: err.message });
-  }
+ try {
+   await sendEmail(recipientEmail, subject, htmlContent);
+   console.log("Reset Email sent!");
+   res.status(200).send({ message: "Success" });
+ } catch (err) {
+   console.error("SendGrid error:", err.response ? err.response.body : err);
+   res.status(500).send({ error: "Failed to send email" });
+ }
 });
 app.post("/send-otp", async (req, res) => {
   console.log("Received request:", req.body);
   const { recipientEmail, otp } = req.body;
 
-  const mailOptions = {
-    from: "marwakhalid558@gmail.com",
-    to: recipientEmail,
-    subject: "Your One-Time Password (OTP)",
-    html: `<div>
+  
+    subject="Your One-Time Password (OTP)"
+    htmlContent= `<div>
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family: 'Stack Sans Headline-Regular', Helvetica, Arial, sans-serif;">
         <tr>
             <td align="center" style="padding: 40px 0;">
@@ -451,20 +453,23 @@ app.post("/send-otp", async (req, res) => {
             </td>
         </tr>
     </table>
-</div>`,
-  };
+</div>`
 
   try {
-    await transporter.sendMail(mailOptions);
-    console.log("Email sent!");
+    await sendEmail(
+      recipientEmail,
+      subject,
+      htmlContent,
+    );
+    console.log("OTP Email sent!");
     res.status(200).send({ message: "Success" });
   } catch (err) {
-    console.error("Send error:", err);
-    res.status(500).send({ error: err.message });
+    console.error("SendGrid error:", err.response ? err.response.body : err);
+    res.status(500).send({ error: "Failed to send email" });
   }
 });
 app.get("/ping", (req, res) => res.send("pong"));
 const PORT = 5000;
-app.listen(5000, "0.0.0.0", () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log("Server is listening on port 5000: :)");
 });
