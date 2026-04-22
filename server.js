@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 // Configuration
 const SENDGRID_API_KEY =
-  "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";
+  "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";
 const FROM_EMAIL = "No-Reply <noreplynationwideassist@yopmail.com>";
 
 sgMail.setApiKey(SENDGRID_API_KEY);
