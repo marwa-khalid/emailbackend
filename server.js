@@ -7,7 +7,8 @@ const sgMail = require("@sendgrid/mail"); // 1. Use SendGrid instead of Nodemail
 app.use(cors());
 app.use(express.json());
 // Configuration
-const SENDGRID_API_KEY = "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";
+const SENDGRID_API_KEY =
+  "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";
 const FROM_EMAIL = "No-Reply <noreplynationwideassist@yopmail.com>";
 
 sgMail.setApiKey(SENDGRID_API_KEY);
