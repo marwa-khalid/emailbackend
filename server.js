@@ -1,476 +1,172 @@
-
 const express = require("express");
 const cors = require("cors");
+const sgMail = require("@sendgrid/mail");
+
 const app = express();
-const sgMail = require("@sendgrid/mail"); // 1. Use SendGrid instead of Nodemailer
-// Middleware MUST come before routes
+
 app.use(cors());
 app.use(express.json());
-// Configuration
-const SENDGRID_API_KEY =
-  "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";
-const FROM_EMAIL = "No-Reply <noreplynationwideassist@yopmail.com>";
 
-sgMail.setApiKey(SENDGRID_API_KEY);
-// Add a simple GET route to test the browser directly
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+const FROM_EMAIL = process.env.FROM_EMAIL || "noreply@yourdomain.com";
+
+if (!SENDGRID_API_KEY) {
+  console.error("Missing SENDGRID_API_KEY");
+} else {
+  sgMail.setApiKey(SENDGRID_API_KEY);
+}
+
 app.get("/", (req, res) => {
-  res.send("Server is alive and responding!");
+  res.status(200).send("Server is alive and responding!");
 });
-console.log("Initializing transporter...");
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "marwakhalid558@gmail.com",
-//     pass: "mjeh qhpm tocf opxw", // <--- MAKE SURE THIS IS CORRECT
-//   },
-// });
-// Helper function to keep code DRY
+
+app.get("/ping", (req, res) => {
+  res.status(200).send("pong");
+});
+
 const sendEmail = async (to, subject, html) => {
+  if (!SENDGRID_API_KEY) {
+    throw new Error("SENDGRID_API_KEY is not configured");
+  }
+
   const msg = {
-    to: to,
-    from: FROM_EMAIL, 
-    subject: subject,
-    html: html,
+    to,
+    from: FROM_EMAIL,
+    subject,
+    html,
   };
-  return sgMail.send(msg);
+
+  return await sgMail.send(msg);
 };
-// Test the transporter connection on startup
-// transporter.verify((error, success) => {
-//   if (error) {
-//     console.log("Transporter error:", error);
-//   } else {
-//     console.log("Server is ready to take our messages");
-//   }
-// });
 
 app.post("/send-email", async (req, res) => {
-  console.log("Received request:", req.body);
-  const { recipientEmail, inviteLink } = req.body;
-
-    const subject= "Password Reset - Secure Invitation Link"
-    const htmlContent= `<div> 
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td style="padding: 40px 0;">
-
-<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-collapse: collapse; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-
-
-<tr>
-
-<td align="center" style="padding: 48px;">
-
-
-<h2 style="color: #000000; font-size: 20px; font-weight: 600; margin: 0 0 16px 0; line-height: 1.2;">
-
-Hi
-
-</h2>
-
-
-
-<p style="color: #444444; font-size: 14px; line-height: 1.6; margin: 0 0 24px 0;">
-
-You have been added as a user to the <br />
-
-<span style="font-weight: 600;">Nationwide Assist CRM</span>
-
-</p>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td align="center" style="padding-bottom: 32px;">
-
-<p style="color: #444444; font-size: 12px; font-weight: 400; margin: 0 0 12px 0; max-width: 424px;">
-
-To activate your account and set your password, please click the link below:
-
-</p>
-
-<a href=${inviteLink}
-
-style="color: #0352FD; font-size: 12px; text-decoration: none; word-break: break-all;">
-
-${inviteLink}
-
-</a>
-
-</td>
-
-</tr>
-
-</table>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 394px;">
-
-<tr>
-
-<td align="center" style="padding-bottom: 48px;">
-
-<p style="color: #444444; font-size: 12px; line-height: 1.6; font-weight: 600; margin: 0 0 24px 0;">
-
-For security reasons, this link will expire in 24 hours.<br />
-
-If the link expires, please contact your admin to request a new activation email.
-
-</p>
-
-<p style="color: #444444; font-size: 12px; font-weight: 600; margin: 0;">
-
-If you did not expect this invitation, you can safely ignore this </br> message.
-
-</p>
-
-</td>
-
-</tr>
-
-</table>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td style="height: 1px; background-color: #CCCCCC; line-height: 1px; font-size: 1px;">&nbsp;</td>
-
-</tr>
-
-</table>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td align="center" style="padding-top: 32px; padding-bottom: 48px;">
-
-<span style="color: #000000; font-size: 12px; font-weight: 400;">Kind regards,</span><br />
-
-<span style="color: #000000; font-size: 14px; font-weight: 600;">Nationwide Assist IT / Systems Team</span>
-
-</td>
-
-</tr>
-
-</table>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td align="center" style="padding: 16px;">
-
-<span style="color: #888888; font-family: 'Stack Sans Headline-SemiBold', Helvetica; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Security notice:</span>
-
-<p style="color: #888888; font-size: 12px; font-family: 'Stack Sans Headline-Regular', Helvetica; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
-
-Never share your login details with anyone. Nationwide Assist will never ask for your password by email.
-
-</p>
-
-</td>
-
-</tr>
-
-</table>
-
-
-
-</td>
-
-</tr>
-
-</table>
-
-</td>
-
-</tr>
-
-</table>
-
-</div>
-`
   try {
-    await sendEmail(recipientEmail, subject, htmlContent);
-    console.log("Invite Email sent!");
-    res.status(200).send({ message: "Success" });
+    const { recipientEmail, inviteLink } = req.body;
+
+    if (!recipientEmail || !inviteLink) {
+      return res.status(400).json({
+        error: "recipientEmail and inviteLink are required",
+      });
+    }
+
+    const subject = "Password Reset - Secure Invitation Link";
+    const htmlContent = `
+      <div>
+        <p>You have been added as a user to Nationwide Assist CRM.</p>
+        <p>To activate your account and set your password, click below:</p>
+        <a href="${inviteLink}">${inviteLink}</a>
+      </div>
+    `;
+
+    const response = await sendEmail(recipientEmail, subject, htmlContent);
+
+    return res.status(200).json({
+      message: "Success",
+      statusCode: response?.[0]?.statusCode || 202,
+    });
   } catch (err) {
-    console.error("SendGrid error:", err.response ? err.response.body : err);
-    res.status(500).send({ error: "Failed to send email" });
+    console.error("SendGrid /send-email error:", {
+      message: err.message,
+      code: err.code,
+      responseBody: err.response?.body,
+    });
+
+    return res.status(500).json({
+      error: "Failed to send email",
+      details: err.response?.body || err.message,
+    });
   }
 });
+
 app.post("/send-reset-link", async (req, res) => {
-  console.log("Received request:", req.body);
-  const { recipientEmail, inviteLink } = req.body;
-
-    subject="Reset Password",
-    htmlContent= `<div>
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td style="padding: 40px 0;">
-
-<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-collapse: collapse; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-
-
-<tr>
-
-<td align="center" style="padding: 48px;">
-
-
-<h2 style="color: #000000; font-size: 20px; font-weight: 600; margin: 0 0 16px 0; line-height: 1.2;">
-
-Hi
-
-</h2>
-
-
-
-<p style="color: #444444; font-size: 14px; line-height: 1.6; margin: 0 0 24px 0;">
-
-We received a request to reset the password for your <br />
-
-<span style="font-weight: 600;">Nationwide Assist CRM Account</span>
-
-</p>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td align="center" style="padding-bottom: 32px;">
-
-<p style="color: #444444; font-size: 12px; font-weight: 400; margin: 0 0 12px 0; max-width: 424px;">
-
-To reset your password, please click the link below:
-
-</p>
-
-<a href=${inviteLink}
-
-style="color: #0352FD; font-size: 12px; text-decoration: none; word-break: break-all;">
-
-${inviteLink}
-
-</a>
-
-</td>
-
-</tr>
-
-</table>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 394px;">
-
-<tr>
-
-<td align="center" style="padding-bottom: 48px;">
-
-<p style="color: #444444; font-size: 12px; line-height: 1.6; font-weight: 600; margin: 0 0 24px 0;">
-
-For security reasons, this link will expire in 24 hours.<br />
-
-If the link expires, please contact your admin to request a new activation email.
-
-</p>
-
-<p style="color: #444444; font-size: 12px; font-weight: 600; margin: 0;">
-
-If you did not expect this invitation, you can safely ignore this </br> message.
-
-</p>
-
-</td>
-
-</tr>
-
-</table>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td style="height: 1px; background-color: #CCCCCC; line-height: 1px; font-size: 1px;">&nbsp;</td>
-
-</tr>
-
-</table>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td align="center" style="padding-top: 32px; padding-bottom: 48px;">
-
-<span style="color: #000000; font-size: 12px; font-weight: 400;">Kind regards,</span><br />
-
-<span style="color: #000000; font-size: 14px; font-weight: 600;">Nationwide Assist IT / Systems Team</span>
-
-</td>
-
-</tr>
-
-</table>
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-<tr>
-
-<td align="center" style="padding: 16px;">
-
-<span style="color: #888888; font-family: 'Stack Sans Headline-SemiBold', Helvetica; font-size: 14px; font-weight: 600; letter-spacing: 0.5px;">Security notice:</span>
-
-<p style="color: #888888; font-size: 12px; font-family: 'Stack Sans Headline-Regular', Helvetica; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
-
-Never share your login details with anyone. Nationwide Assist will never ask for your password by email.
-
-</p>
-
-</td>
-
-</tr>
-
-</table>
-
-
-</td>
-
-</tr>
-
-</table>
-
-</td>
-
-</tr>
-
-</table>
-
-</div>`
-
- try {
-   await sendEmail(recipientEmail, subject, htmlContent);
-   console.log("Reset Email sent!");
-   res.status(200).send({ message: "Success" });
- } catch (err) {
-   console.error("SendGrid error:", err.response ? err.response.body : err);
-   res.status(500).send({ error: "Failed to send email" });
- }
-});
-app.post("/send-otp", async (req, res) => {
-  console.log("Received request:", req.body);
-  const { recipientEmail, otp } = req.body;
-
-  
-    subject="Your One-Time Password (OTP)"
-    htmlContent= `<div>
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family: 'Stack Sans Headline-Regular', Helvetica, Arial, sans-serif;">
-        <tr>
-            <td align="center" style="padding: 40px 0;">
-                <table border="0" cellpadding="0" cellspacing="0" width="600" style="overflow: hidden; padding: 48px;">
-                    
-                    <tr>
-                        <td align="center" style="padding-bottom: 16px;">
-                            <h2 style="margin: 0; color: #000000; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 20px; font-weight: 600; line-height: 20px;">
-                                Hi
-                            </h2>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td align="center" style="padding-bottom: 34px;">
-                            <p style="margin: 0; color: #444444; font-family: 'Stack Sans Headline-Regular', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 1.4;">
-                                Your One-Time Password (OTP) for accessing<br>
-                                your Nationwide Assist CRM account is
-                            </p>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td align="center" style="padding-bottom: 40px;">
-                            <div style="color: #0352FD; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 40px; font-weight: 600; letter-spacing: 8px; line-height: 40px;">
-                                ${otp}
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td align="center" style="padding-bottom: 48px;">
-                            <div style="max-width: 394px; margin: 0 auto; color: #444444; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; line-height: 1.6;">
-                                <p style="margin: 0;">This OTP is valid for 5 minutes and can only be used once.</p>
-                                <p style="margin: 16px 0 0 0;">
-                                    If you did not request this OTP, you can safely ignore this email or contact your system administrator.
-                                </p>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td style="border-top: 1px solid #CCCCCC; padding-bottom: 32px;"></td>
-                    </tr>
-
-                    <tr>
-                        <td align="center" style="padding-bottom: 32px;">
-                            <span style="color: #000000; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600;">Kind regards,</span><br>
-                            <span style="color: #000000; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600;">Nationwide Assist IT / Systems Team</span>
-                        </td>
-                    </tr>
-
-                </table>
-
-                <table border="0" cellpadding="0" cellspacing="0" width="600">
-                    <tr>
-                        <td align="center" style="padding: 16px;padding-top: 0px;">
-                            <span style="color: #888888; font-family: 'Stack Sans Headline-SemiBold', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600;">Security notice:</span>
-                            <p style="color: #888888; font-size: 12px; font-family: 'Stack Sans Headline-Regular', Helvetica, Arial, sans-serif; font-weight: 400; margin: 4px 0 0 0; line-height: 1.4;">
-                                Never share your login details with anyone. Nationwide Assist will never ask for your password by email.
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-</div>`
-
   try {
-    await sendEmail(
-      recipientEmail,
-      subject,
-      htmlContent,
-    );
-    console.log("OTP Email sent!");
-    res.status(200).send({ message: "Success" });
+    const { recipientEmail, inviteLink } = req.body;
+
+    if (!recipientEmail || !inviteLink) {
+      return res.status(400).json({
+        error: "recipientEmail and inviteLink are required",
+      });
+    }
+
+    const subject = "Reset Password";
+    const htmlContent = `
+      <div>
+        <p>We received a request to reset the password for your Nationwide Assist CRM account.</p>
+        <p>To reset your password, click below:</p>
+        <a href="${inviteLink}">${inviteLink}</a>
+      </div>
+    `;
+
+    const response = await sendEmail(recipientEmail, subject, htmlContent);
+
+    return res.status(200).json({
+      message: "Success",
+      statusCode: response?.[0]?.statusCode || 202,
+    });
   } catch (err) {
-    console.error("SendGrid error:", err.response ? err.response.body : err);
-    res.status(500).send({ error: "Failed to send email" });
+    console.error("SendGrid /send-reset-link error:", {
+      message: err.message,
+      code: err.code,
+      responseBody: err.response?.body,
+    });
+
+    return res.status(500).json({
+      error: "Failed to send email",
+      details: err.response?.body || err.message,
+    });
   }
 });
-app.get("/ping", (req, res) => res.send("pong"));
-const PORT = 5000;
-app.listen(PORT, "0.0.0.0", () => {
-  console.log("Server is listening on port 5000: :)");
+
+app.post("/send-otp", async (req, res) => {
+  try {
+    const { recipientEmail, otp } = req.body;
+
+    if (!recipientEmail || !otp) {
+      return res.status(400).json({
+        error: "recipientEmail and otp are required",
+      });
+    }
+
+    const subject = "Your One-Time Password (OTP)";
+    const htmlContent = `
+      <div style="font-family: Helvetica, Arial, sans-serif; padding: 24px;">
+        <h2>Hi</h2>
+        <p>Your One-Time Password (OTP) for accessing your Nationwide Assist CRM account is:</p>
+        <div style="font-size: 40px; font-weight: 700; color: #0352FD; letter-spacing: 8px; margin: 24px 0;">
+          ${otp}
+        </div>
+        <p>This OTP is valid for 5 minutes and can only be used once.</p>
+        <p>If you did not request this OTP, you can safely ignore this email.</p>
+      </div>
+    `;
+
+    const response = await sendEmail(recipientEmail, subject, htmlContent);
+
+    return res.status(200).json({
+      message: "Success",
+      statusCode: response?.[0]?.statusCode || 202,
+    });
+  } catch (err) {
+    console.error("SendGrid /send-otp error:", {
+      message: err.message,
+      code: err.code,
+      responseBody: err.response?.body,
+    });
+
+    return res.status(500).json({
+      error: "Failed to send email",
+      details: err.response?.body || err.message,
+    });
+  }
 });
+
+// For local use
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server is listening on port ${PORT}`);
+  });
+}
+
+// For Vercel
+module.exports = app;
